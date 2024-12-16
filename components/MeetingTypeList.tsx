@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 'use client';
 
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { useRouter } from 'next/navigation';
-
 import HomeCard from './HomeCard';
 import MeetingModal from './MeetingModal';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
@@ -19,6 +18,12 @@ const initialValues = {
   description: '',
   link: '',
 };
+
+// Wrap ReactDatePicker with forwardRef
+const DatePicker = forwardRef<any, any>((props, ref) => (
+  <ReactDatePicker {...props} ref={ref} />
+));
+DatePicker.displayName = 'DatePicker';
 
 const MeetingTypeList = () => {
   const router = useRouter();
@@ -121,7 +126,7 @@ const MeetingTypeList = () => {
             <label className="text-base font-normal leading-[22.4px] text-sky-2">
               Select Date and Time
             </label>
-            <ReactDatePicker
+            <DatePicker
               selected={values.dateTime}
               onChange={(date) => setValues({ ...values, dateTime: date! })}
               showTimeSelect
